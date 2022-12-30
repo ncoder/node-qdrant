@@ -28,7 +28,7 @@ export class Qdrant {
 	async req(path, body, method) {
 		let qdrant_url = this.url;
 		let url = `${qdrant_url}${path}`;
-		return new QdrantResponse(body_request(url, body, method, this.api_key));
+		return new QdrantResponse(await body_request(url, body, method, this.api_key));
 	}
 
 	//DELETE http://localhost:6333/collections/{collection_name}
@@ -70,8 +70,8 @@ export class Qdrant {
 	}
 
 	//retrieve the specific points by ids
-	async retrieve_points(name: string, ids: number[]) {
-		return this.req(`collections/${name}/points`, { ids }, 'POST');
+	async retrieve_points(name: string, ids: number[], with_payload?: boolean, with_vector?: boolean) {
+		return this.req(`collections/${name}/points`, { ids, with_payload, with_vector }, 'POST');
 	}
 
 };
