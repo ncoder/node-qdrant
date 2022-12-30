@@ -1,15 +1,21 @@
 import fetch from "node-fetch";
 
-export async function body_request(url,body,method){
+type HTTPMethod = "PUT" | "GET" | "DELETE" | "PATCH" | "POST";
+
+export async function body_request(url: string, body: any, method: HTTPMethod, api_key: string) {
     method = method || "POST";
 
-    let fetch_spec = {
+    let fetch_spec:any = {
         method: method,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        }
+        },
     };
+
+    if (api_key) {
+        fetch_spec.headers['api-key'] = api_key;
+    }
 
     if (body) fetch_spec.body = JSON.stringify(body);
 
@@ -17,15 +23,15 @@ export async function body_request(url,body,method){
 
     try {
         const output = await response.json();
-        return [null,output];
-    } catch(ex) {
+        return [null, output];
+    } catch (ex) {
         const output = null;
-        return [ex,output];
+        return [ex, output];
     }
 }
 
 
-export async function url_request(url,params){
+export async function url_request(url, params) {
     if (params) {
         url += "?" + new URLSearchParams(params).toString();
     }
@@ -34,9 +40,9 @@ export async function url_request(url,params){
 
     try {
         const output = await response.json();
-        return [null,output];
-    } catch(ex) {
+        return [null, output];
+    } catch (ex) {
         const output = null;
-        return [ex,output];
+        return [ex, output];
     }
 }
