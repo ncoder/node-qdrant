@@ -13,9 +13,15 @@ class QdrantResponse {
 
 export class Qdrant {
 	url: string
-	api_key: string
-	constructor({ url, api_key }) {
+	api_key?: string
+	constructor({ url, api_key }: {url?: string, api_key?: string}) {
 		this.url = url || base_url;
+		if(!this.url.endsWith("/")) {
+			this.url += "/";
+		}
+		if(!this.url.startsWith("http")) {
+			this.url = "https://" + this.url;
+		}
 		this.api_key = api_key;
 	}
 
@@ -42,15 +48,13 @@ export class Qdrant {
 
 	//PUT http://localhost:6333/collections/{collection_name}/points
 	async upload_points(name: string, points: any) {
-			return this.req(`collections/${name}/points`, { points: points }, 'PUT');
-		}
+		return this.req(`collections/${name}/points`, { points: points }, 'PUT');
+	}
 	//POST http://localhost:6333/collections/{collection_name}/points/search
 	async search_collection(name: string, vector: any, k: number, ef: number, filter: any) {
 		k = k || 5;
 		ef = ef || 128;
-		let qdrant_url = this.url;
-		let url = `${qdrant_url}collections/${name}/points/search`;
-		let query :any = {
+		let query: any = {
 			"params": {
 				"hnsw_ef": ef
 			},
@@ -66,8 +70,8 @@ export class Qdrant {
 	}
 
 	//retrieve the specific points by ids
-	async retrieve_points(name: string, query: any) {
-		return this.req(`collections/${name}/points`, query, 'POST');
+	async retrieve_points(name: string, ids: number[]) {
+		return this.req(`collections/${name}/points`, { ids }, 'POST');
 	}
 
 };

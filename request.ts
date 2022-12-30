@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 
 type HTTPMethod = "PUT" | "GET" | "DELETE" | "PATCH" | "POST";
 
-export async function body_request(url: string, body: any, method: HTTPMethod, api_key: string) {
+export async function body_request(url: string, body: any, method: HTTPMethod, api_key?: string) {
     method = method || "POST";
 
     let fetch_spec:any = {

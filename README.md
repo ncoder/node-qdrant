@@ -10,7 +10,7 @@ Then you can use it in your project:
 
 ```javascript
 import { Qdrant } from "qdrant"
-const qdrant = new Qdrant("http://localhost:6333/");
+const qdrant = new Qdrant({url:"http://localhost:6333/"}); // or Qdrant({}}) as this is the default
 ```
 
 ## Quick Start
@@ -20,7 +20,7 @@ Here is a basic example that creates a client connection and adds a new collecti
 ```javascript
 import { Qdrant } from "qdrant"
 
-const qdrant = new Qdrant("http://localhost:6333/");
+const qdrant = new Qdrant();
 
 const name = "pretty_colors";
 
