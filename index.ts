@@ -70,7 +70,8 @@ export class Qdrant {
 	}
 
 	//retrieve the specific points by ids
-	async retrieve_points(name: string, ids: number[], with_payload?: boolean, with_vector?: boolean) {
+	// ids as numbers don't work. you can't express the full i64 range in JSON
+	async retrieve_points(name: string, ids: string[], with_payload?: boolean, with_vector?: boolean) {
 		return this.req(`collections/${name}/points`, { ids, with_payload, with_vector }, 'POST');
 	}
 
